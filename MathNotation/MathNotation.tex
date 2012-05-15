@@ -1,0 +1,121 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass[10pt,fleqn]{article}%
+%Options -- Point size:  10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper (default), a4paper, a5paper, b5paper
+%                        legalpaper, executivepaper
+%        -- Orientation  (portrait is the default)
+%                        landscape
+%        -- Print size:  oneside (default), twoside
+%        -- Quality      final(default), draft
+%        -- Title page   notitlepage, titlepage(default)
+%        -- Columns      onecolumn(default), twocolumn
+%        -- Equation numbering (equation numbers on the right is the default)
+%                        leqno
+%        -- Displayed equations (centered is the default)
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Open bibliography style (closed is the default)
+%                        openbib
+% For instance the command
+%           \documentclass[a4paper,12pt,leqno]{article}
+% ensures that the paper size is a4, the fonts are typeset at the size 12p
+% and the equation numbers are on the left side
+%
+\usepackage[left=1.0in, right=1.0in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{layout}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{appendix}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{algorithm, algorithmic}
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%-------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{Math\textbackslash Model Notation\\
+for Prediction of Chess Endgame}
+\author{Anderson, Callahan, Gutshall}
+\date{May 13, 2012}
+\maketitle
+
+\begin{abstract}
+A quick definition of terms used for our final project.  This will help when we write our final report and will make sure we can communicate easily. 
+\end{abstract}
+
+\section{Chess Board Positions}
+Let the following notation describe the space of a Chess board,
+\begin{equation}
+\label{eq:StandardPositions}
+\begin{aligned}
+	\text{File} &\in \left[a,b,c,d,e,f,g,h\right]\\
+	&\in \left[1,2,3,4,5,6,7,8\right]\\
+	\text{Rank} &\in \left[1,2,3,4,5,6,7,8\right]\\
+\end{aligned}
+\end{equation}
+
+\section{Game Pieces}
+Let the three game pieces be defined as $Piece_i$, where $i = \left[1,2,3\right]$ represents the piece index,
+\begin{equation}
+\label{eq:pieces}
+\begin{aligned}
+	Piece &\in \left[W_k, W_r, B_k\right]\\
+	&W_k = \text{White King}\\
+	&W_r = \text{White Rook}\\
+	&B_k = \text{Black King}\\
+\end{aligned}
+\end{equation}
+
+\section{Class Labels}
+Class labels are defined as the remaining moves till checkmate of $B_k$.  Note, checkmate of $B_k$ is called on the $m^{\text{th}}$ move of $B_k$.
+\begin{equation*}
+\begin{aligned}
+	Class &\in \left[draw,0,1,2,3,4, \dots, m\right]\\
+	&\in \left[-1,0,1,2,3,4, \dots, m\right]
+\end{aligned}
+\end{equation*}
+
+\section{Instance of a Game}
+Let a instance of a game be defined as $Game_k$ where $k = \left[1,2,3,\dots\right]$ is the game index, 
+%
+\begin{equation*}
+\begin{aligned}
+	Game_k &= \left[Piece_i \left\{file, rank\right\}, Class\right]\\
+	&= \left[\left\{2, 1\right\},\left\{7,9\right\},\left\{6,3\right\},8\right] \\
+	&= \left[W_k \left\{2, 1\right\}, W_r \left\{7, 9\right\}, B_k \left\{6, 3\right\}, 8\right]\\
+	&= \left[W_k \left\{b, 1\right\}, W_r \left\{g, 9\right\}, B_k \left\{f, 3\right\}, 8\right]\\
+\end{aligned}
+\end{equation*}
+
+\section{Parameters}
+Several parameter functions are used to classify or achieve an objective function, these parameter functions are labeled as $\mathbf{\Phi}\left(\mathbf{x}\right)_j$.  Where, $j = \left\{1,2,3,4,\dots\right\}$ is a index for the parameter function and $\mathbf{x}$ could be any parameter used in the function.
+
+\end{document}
