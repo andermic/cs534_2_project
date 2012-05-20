@@ -1,4 +1,6 @@
 Mutual Information(Base Data):
+	I(Random,Random) = 0.003
+
 	I(W_k_c,Class) = 0.1653
 	I(W_k_r,Class) = 0.2903
 	I(W_r_c,Class) = 0.0501
