@@ -31,7 +31,7 @@ Bk_Wr_binary = Bk_Wr_binary <= sqrt(1^2+1^2);
 
 % Combining all the parameters into one easy matrix
 Theta = [Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary];
-Theta_Labels = {'Kings_L2','Bk_L1edge','Bk_L2corner','Bk_Wr_binary'};
+Theta_Labels = {'Kings_{L2}','Bk_{L1edge}','Bk_{L2corner}','BkWr_{binary}'};
 
 % Break out the class labels y from the orginal dataset
 y = base_data(:,7);
