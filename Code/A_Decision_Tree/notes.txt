@@ -14,7 +14,12 @@ Decision Tree:
   Use concatenation of original feature vector and meta-feature vector.
  Probably want to implement bagged decision trees, possibly test them against
   unbagged decision trees.
-
+ Don't forget about:
+  Overfitting:
+   Early stop
+   Post pruning
+  Regularization against multi-way splitting
+  Validation in general
 
 Meta-Features:
  MF1: Two types of draws possible. Encorporate these into a feature:

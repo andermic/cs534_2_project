@@ -1,0 +1,27 @@
+What I've done:
+    -Implemented entropy and mutual information.
+    -Implemented a set of 3 meta-features, one of which solves a 2-class
+     version of our problem (draw or no draw).
+    -Ran a number of experiments to see how much each original feature
+     and each meta-feature reduces the entropy of the class label.
+        -Meta-features perform fairly well, but only reduce a fraction
+         of the entropy in the class.
+    -Started implementing decision trees with information gain criterion.
+
+What I'm going to do:
+    -Finish implementing decision trees with information gain criterion.
+    -Implement a meta-feature that solves another 2-class version of our
+     problem (checkmate or no checkmate).
+    -Implement more advanced decision tree modifications.
+        -Bagging (and possibly boosting).
+        -Overfitting avoidance:
+            -Early stop.
+            -Post pruning.
+        -Try different splitting criteria other than information gain
+         (e.g. bias avoidance).
+    -Run many different experiments with decision trees using different
+     combinations of the original features and some meta-features, and
+     the more advanced decision tree modifications.
+        -Report and compare results, try to theoretically justify the
+         differences in performance between different flavors of the
+         decision tree algorithm.
