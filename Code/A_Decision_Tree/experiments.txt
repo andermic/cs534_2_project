@@ -5,6 +5,25 @@ Mutual Information(Base Data):
 	I(W_r_r,Class) = 0.0462
 	I(B_k_c,Class) = 0.1851
 	I(B_k_r,Class) = 0.3145
-	
+
+	I(Edge-Distance,Class) = 0.2602
+	I(Kings-Distance,Class):
+		L1= 0.1068
+		L2 = 0.1488
+		L3 = 0.1546
+		L4 = 0.1546
+		L5 = 0.1546
+		L10 = 0.1546
+		L15 = 0.1546
+		L18 = 0.1546
+		L19 = 0.1546
+		L20 = 0.1541
+		L30 = 0.1522
+		L50 = 0.1344
+		L100 = 0.1264
+		LInf = 0.1077
+	I(Draw-Check,Class) = 0.4679
+
+
 Entropy(Base Data):
 	H(Class) = 3.5042
