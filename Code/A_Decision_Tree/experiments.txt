@@ -1,0 +1,10 @@
+Mutual Information(Base Data):
+	I(W_k_c,Class) = 0.1653
+	I(W_k_r,Class) = 0.2903
+	I(W_r_c,Class) = 0.0501
+	I(W_r_r,Class) = 0.0462
+	I(B_k_c,Class) = 0.1851
+	I(B_k_r,Class) = 0.3145
+	
+Entropy(Base Data):
+	H(Class) = 3.5042

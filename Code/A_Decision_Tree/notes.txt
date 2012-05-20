@@ -1,0 +1,25 @@
+Mutual Information:
+ MI should be 1 for the first meta-feature described below.
+ Hypothesize that the position of the black king should give the most MI,
+  followed by the white king, followed by the white rook. Rows
+  and columns of each individual piece should give about the same amount.
+ Test the amount of mutual information that each feature and each meta-feature
+  give about the dataset.
+
+
+Decision Tree:
+ Want to perform 3 experiments:
+  Use original feature vector.
+  Use meta-feature vector.
+  Use concatenation of original feature vector and meta-feature vector.
+ Probably want to implement bagged decision trees, possibly test them against
+  unbagged decision trees.
+
+
+Meta-Features:
+ MF1: Two types of draws possible. Encorporate these into a feature:
+       1)Black can capture white rook
+       2)Stalemate
+      These should solve the win/draw 2 class problem
+ MF2:Euclidean distance between kings (play with other distances though)
+ MF3:Distance between enemy king and edge
