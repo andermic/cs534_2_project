@@ -14,7 +14,9 @@ load('../Orginal_Dataset/base_data.mat');
 Kings_L2 = sqrt(abs(base_data(:,1)-base_data(:,5)).^2 + abs(base_data(:,2)-base_data(:,6)).^2 );
 
 % 2) Black King to nearest board edge
-Bk_L1edge = min([(base_data(:,5) - 1)'; (base_data(:,6) - 1)'])';
+Bk_L1edgeRankDistance = min([abs(base_data(:,5) - 1)'; abs(base_data(:,5) - 8)']);
+Bk_L1edgeFileDistance = min([abs(base_data(:,6) - 1)'; abs(base_data(:,6) - 8)']);
+Bk_L1edge = min([Bk_L1edgeRankDistance; Bk_L1edgeFileDistance])';
 
 % 3) Black King to nearest board corner
 BK_corner1 = sqrt(abs(base_data(:,5) - 1).^2 + abs(base_data(:,6) - 1).^2 )';
@@ -29,16 +31,20 @@ Bk_L2corner = min([BK_corner1; BK_corner2; BK_corner3; BK_corner4])';
 Bk_Wr_binary = sqrt(abs(base_data(:,3)-base_data(:,5)).^2 + abs(base_data(:,4)-base_data(:,6)).^2 );
 Bk_Wr_binary = Bk_Wr_binary <= sqrt(1^2+1^2);
 
+% 5) White King to White Rook L2 norm
+% This parameter measures the distance of White King to White Rook
+WhiteKingRook_L2 = sqrt(abs(base_data(:,1)-base_data(:,3)).^2 + abs(base_data(:,2)-base_data(:,4)).^2 );
+
 % Combining all the parameters into one easy matrix
-Theta = [Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary];
-Theta_Labels = {'Kings_{L2}','Bk_{L1edge}','Bk_{L2corner}','BkWr_{binary}'};
+Theta = [Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary WhiteKingRook_L2];
+Theta_Labels = {'Kings_{L2}','Bk_{L1edge}','Bk_{L2corner}','BkWr_{binary}','WhiteKingRook_{L2}'};
 
 % Break out the class labels y from the orginal dataset
 y = base_data(:,7);
 
 % Clean up the garbage
 clear base_data;
-clear BK_corner1 BK_corner2 BK_corner3 BK_corner4;
-clear Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary;
+clear BK_corner1 BK_corner2 BK_corner3 BK_corner4 Bk_L1edgeRankDistance Bk_L1edgeFileDistance;
+clear Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary WhiteKingRook_L2;
 
 
