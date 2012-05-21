@@ -7,7 +7,7 @@
 % subgradient Pegasos SVM code.
 
 % Load in the orginal MATLAB dataset
-load('../Orginal_Dataset/base_data.mat');
+%load('../Orginal_Dataset/base_data.mat');
 
 % Create a vector parameters
 % 1) White King to Black King distance
@@ -39,11 +39,21 @@ WhiteKingRook_L2 = sqrt(abs(base_data(:,1)-base_data(:,3)).^2 + abs(base_data(:,
 Theta = [Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary WhiteKingRook_L2];
 Theta_Labels = {'Kings_{L2}','Bk_{L1edge}','Bk_{L2corner}','BkWr_{binary}','WhiteKingRook_{L2}'};
 
+% Now create a scaled version of Theta in accordence with recommendations
+% for SVM implementation
+meanTheta = mean(Theta);
+stdTheta = std(Theta);
+ScaledTheta = zeros(size(Theta));
+for j=1:size(Theta,2)
+    ScaledTheta(:,j) = (Theta(:,j) - meanTheta(j))./stdTheta(j);
+end
+
 % Break out the class labels y from the orginal dataset
 y = base_data(:,7);
 
 % Clean up the garbage
 clear base_data;
+clear meanTheta stdTheta j;
 clear BK_corner1 BK_corner2 BK_corner3 BK_corner4 Bk_L1edgeRankDistance Bk_L1edgeFileDistance;
 clear Kings_L2 Bk_L1edge Bk_L2corner Bk_Wr_binary WhiteKingRook_L2;
 
