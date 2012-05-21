@@ -24,7 +24,8 @@ Mutual Information(Base Data):
 		L50 = 0.1344
 		L100 = 0.1264
 		LInf = 0.1077
-	I(Draw-Check,Class) = 0.4679
+	I(Draw,Class) = 0.4679
+    I(Checkmate,Class) = 0.0110
 
 
 Entropy(Base Data):
