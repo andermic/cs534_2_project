@@ -32,15 +32,24 @@ Theta_reduced(length(Class1_indexes)+1:length(y_reduced),:) = Theta(Class2_index
 ScaledTheta_reduced(1:length(Class1_indexes),:) = ScaledTheta(Class1_indexes,:);
 ScaledTheta_reduced(length(Class1_indexes)+1:length(y_reduced),:) = ScaledTheta(Class2_indexes,:);
 
-% Debugging
+% Run the regular Pegasos on this reduced dataset
+[wT,b] = pegasos(Theta_reduced,y_reduced);
+[wT_scaled,b_scaled] = pegasos(ScaledTheta_reduced,y_reduced);
+
+% Debugging for two class variables
+DecisionBoundry1 = wT*Theta_reduced' + b;
+DecisionBoundry2 = wT_scaled*ScaledTheta_reduced' + b_scaled;
+
 figure(1);
-scatter(ScaledTheta_reduced(1:length(Class1_indexes),1),ScaledTheta_reduced(1:length(Class1_indexes),2),'+b');hold on;
-scatter(ScaledTheta_reduced(length(Class1_indexes)+1:end,1),ScaledTheta_reduced(length(Class1_indexes)+1:end,2),'or');hold off;
-title('Scaled \Theta');
-figure(2);
 scatter(Theta_reduced(1:length(Class1_indexes),1),Theta_reduced(1:length(Class1_indexes),2),'+b');hold on;
-scatter(Theta_reduced(length(Class1_indexes)+1:end,1),Theta_reduced(length(Class1_indexes)+1:end,2),'or');hold off;
+scatter(Theta_reduced(length(Class1_indexes)+1:end,1),Theta_reduced(length(Class1_indexes)+1:end,2),'or');
+hold off;
 title('\Theta');
+figure(2);
+scatter(ScaledTheta_reduced(1:length(Class1_indexes),1),ScaledTheta_reduced(1:length(Class1_indexes),2),'+b');hold on;
+scatter(ScaledTheta_reduced(length(Class1_indexes)+1:end,1),ScaledTheta_reduced(length(Class1_indexes)+1:end,2),'or');
+hold off;
+title('Scaled \Theta');
 
 % Garbage Cleanup
 clear Class1_indexes Class2_indexes;

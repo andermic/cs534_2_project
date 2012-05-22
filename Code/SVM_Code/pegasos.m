@@ -36,7 +36,7 @@ if(sum(Y~=1 & Y~=-1)>0)
 end
 
 if(nargin<3 || isempty(lamda)),    lamda=1;  end
-if(nargin<4 || isempty(maxIter)),    maxIter=10000;  end
+if(nargin<4 || isempty(maxIter)),    maxIter=20000;  end
 if(nargin<5 || isempty(k)),    k=ceil(0.1*N);  end
 if(nargin<6 || isempty(Tolerance)),    Tolerance=10^-6;  end
 
