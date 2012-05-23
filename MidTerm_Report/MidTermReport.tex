@@ -1,0 +1,188 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass[10pt,fleqn]{article}%
+%Options -- Point size:  10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper (default), a4paper, a5paper, b5paper
+%                        legalpaper, executivepaper
+%        -- Orientation  (portrait is the default)
+%                        landscape
+%        -- Print size:  oneside (default), twoside
+%        -- Quality      final(default), draft
+%        -- Title page   notitlepage, titlepage(default)
+%        -- Columns      onecolumn(default), twocolumn
+%        -- Equation numbering (equation numbers on the right is the default)
+%                        leqno
+%        -- Displayed equations (centered is the default)
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Open bibliography style (closed is the default)
+%                        openbib
+% For instance the command
+%           \documentclass[a4paper,12pt,leqno]{article}
+% ensures that the paper size is a4, the fonts are typeset at the size 12p
+% and the equation numbers are on the left side
+%
+\usepackage[left=1.0in, right=1.0in, top=0.5in, bottom=1.0in]{geometry}
+\usepackage{layout}
+\usepackage{parskip}
+\usepackage{enumerate}
+\usepackage{appendix}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{algorithm, algorithmic}
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%-------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+%\layout %Uncomment this line to see the a sample page of the margins
+
+\title{CS534: Milestone Report\\
+Prediction of Chess Endgame}
+\author{Anderson, Mike; Callahan, Adam; Gutshall, Gregory}
+\date{\today}
+\maketitle
+
+\section*{Abstract}
+Traditionally, computer chess programs evaluate positions heuristically, by considering for each player factors such as the number of uncaptured pieces, king safety, central control, and number of possible moves available. Endgame positions are often evaluated by starting from positions that are known to be won or drawn, and then working backward through a search tree. We would like to propose a third approach: formulate the problem of deciding the result of a chess position as a classification problem. Toward this end we will implement and test a variety of classification algorithms for our data set, and attempt to justify the performance of our algorithms by comparing the mathematical theory behind each of them to the peculiarities of our problem. We would also like to see how these algorithms perform on reparameterizations of our data (for example, it may be that the exact location of each piece is more information than we need, and that the Manhattan distances between the pieces can tell us just as much about the true class label), and we would like to try simpler class label spaces (e.g. use 2 class labels instead of 18: either a position is won for white or it's drawn).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+\label{sec:methods}
+We are going to attempt three different methods of classification for this problem.  We will then supply a heuristic analysis of the results and also provide a hybrid method to achieve the highest prediction accuracy.  We will be using cross-validation on the training set to ensure that over-fitting is minimized.
+%
+\subsection{Decision Tree}
+\label{subsec:Mike}
+Mike is responsible for implementing the Decision Tree Method.
+
+Completed:
+\begin{itemize}
+	\item Implemented entropy and mutual information.
+  \item Implemented a set of 3 meta-features, one of which solves a 2-class
+     version of our problem (draw or no draw).
+  \item Ran a number of experiments to see how much each original feature
+     and each meta-feature reduces the entropy of the class label.  
+	\begin{itemize}
+			\item Meta-features perform fairly well, but only reduce a fraction
+         of the entropy in the class.
+	\end{itemize}
+  \item Started implementing decision trees with information gain criterion.
+\end{itemize}
+\pagebreak
+Remaining work:
+\begin{itemize}
+	\item Finish implementing decision trees with information gain criterion.
+  \item Implement a meta-feature that solves another 2-class version of our
+     problem (checkmate or no checkmate).
+  \item Implement more advanced decision tree modifications.
+	\begin{itemize}
+			\item Bagging (and possibly boosting).
+      \item Over-fitting avoidance:  
+			\begin{itemize}
+					\item Early stop.
+  				\item Post pruning.
+			\end{itemize}
+      \item Try different splitting criteria other than information gain (e.g. bias avoidance).
+	\end{itemize}
+  \item Run many different experiments with decision trees using different
+     combinations of the original features and some meta-features, and
+     the more advanced decision tree modifications.
+  \item Report and compare results, try to theoretically justify the
+         differences in performance between different flavors of the
+         decision tree algorithm.
+\end{itemize}
+%    
+\subsection{Neural Network}
+\label{subsec:Adam}
+Adam is responsible for implementing the Neural Network Method.
+
+Completed:
+\begin{itemize}
+	\item Reparameterize data
+\end{itemize}
+
+Remaining work:
+\begin{itemize}
+	\item Construct a neural network algorithm with parameters ($|\mathbf{X}|$, number hidden nodes, class labels) with a single hidden layer and an output layer that has the number of possible outcomes, $\mathbf{y} \in \left[1,2,3,\dots,17\right]$ to the number of output nodes.
+	\item Try different numbers of hidden layer nodes and compare performance.
+	\item Use online and online with momentum and back propagation to train network. 
+	\item Try multiple runs with different initial inputs in order to avoid possible local minima.  Also first try using just $X_0, X_1$ and $X_2$ - then include $X_3$ and $X_4$.
+	\item When this is completed, try filtering the data first to remove draws, etc as is being done for the other two methods of learning.
+	\item Compare the results - convergence time and accuracy - amongst the methods here and the other two approaches for the project.
+\end{itemize}
+%
+\subsection{Support Vector Machine}
+\label{subsec:Gregory}
+Greg is responsible for implementing the SVM Method.
+
+Completed:
+\begin{itemize}
+	\item Reparameterize and scaled data.
+	\item Implemented Linear and Polynomial kernel to $\mathbf{X}$
+	\item Tested Pegasos: Primal Estimated sub-Gradient solver for SVM
+	\begin{itemize}
+		\item Broke the original multi-class problem into smaller two class problems
+		\item Used cross-validation with $k = 0.1*m$, where $m$ is the row length of $\mathbf{X}$
+		\item Tunned $\lambda$ and $C$ to achieve best class separation accuracy of 96\% ($y_i = 3$ vs. $y_i = 16$) and worst seperation accuracy of 68\% ($y_i = 13$ vs. $y_i = 14$).    
+	\end{itemize}
+	\item Created some data visualization scripts for viewing the decision boundary in $\Re^3$
+\end{itemize}
+
+Remaining work:
+\begin{itemize}
+	\item Implement Radial Basis Function(RBF) kernel
+	\item Test and implement multiclass methods	
+	\begin{itemize}
+		\item One-versus-the-rest
+		\item Voted one-versus-one
+		\item Rank-Loss
+		\item Error Correcting Output Code
+	\end{itemize}
+	\item Try to justify results and possibly create a performance bound.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\appendixpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section{Code}
+%\label{app:code}
+%
+%\subsection{SVM for Linearly Separable Feature Space}
+%\label{app:SVM1}
+%\begin{verbatim}
+%Hello World!
+%\end{verbatim}
+
+Purposely left blank
+
+
+\end{document}
+
