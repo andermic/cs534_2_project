@@ -61,8 +61,8 @@ if(t<maxIter)
 else
     fprintf('\nW not converged in %d iterations.',maxIter);
 end
-wT=mean(w,1);
-% wT=w(end,:);
+%wT=mean(w,1);
+wT=w(end,:);
 b=mean(Y-X*wT');
 Tr=sum(sign(X*wT'+b)==Y);
 F=size(X,1)-Tr;
