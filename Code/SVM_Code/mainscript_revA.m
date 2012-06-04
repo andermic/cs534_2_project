@@ -6,9 +6,11 @@
 % This script is used to call other functions and plotting scripts
 
 % Load in the test data
-load('Test_Parameterizations.mat');
+load('Parameterizations.mat');
 
-% Create a Kernel Function
+% Create the Radial Basis Function Kernel (RBF)
+
+
 
 
 
