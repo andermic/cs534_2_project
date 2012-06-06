@@ -36,7 +36,7 @@ for i=1:length(label)
     accuracy = zeros(length(eta),length(lambda));
     for j = 1:length(eta)
         for k = 1:length(lambda)
-            [wT,b,accuracy(j,k)] = pegasos_SoftMargin(ScaledTheta,y_lab,lambda(k),[],[],[],eta(j));
+            [wT,b,accuracy(j,k)] = pegasos(ScaledTheta,y_lab,lambda(k),[],[],[]);
         end
     end
     

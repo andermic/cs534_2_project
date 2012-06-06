@@ -3,7 +3,7 @@ Type=TeXnicCenterProjectSessionInformation
 Version=2
 
 [SessionInfo]
-ActiveTab=0
+ActiveTab=3
 FrameCount=1
 ActiveFrame=0
 
@@ -24,15 +24,15 @@ Class=CLatexEdit
 Document=CS534-12 Project - XXXX.tex
 
 [Frame0_Row0]
-cyCur=323
+cyCur=240
 cyMin=10
 
 [Frame0_Col0]
-cxCur=1060
+cxCur=949
 cxMin=10
 
 [Frame0_View0,0]
-Cursor.row=62
-Cursor.column=0
-TopSubLine=0
+Cursor.row=102
+Cursor.column=14
+TopSubLine=33
 
