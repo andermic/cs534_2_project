@@ -27,6 +27,20 @@ Mutual Information(Base Data):
 	I(Draw,Class) = 0.4679
     I(Checkmate,Class) = 0.0110
 
+Use L3 norm!
 
 Entropy(Base Data):
 	H(Class) = 3.5042
+
+
+Decision Tree:
+    Base data:
+        Tree has 27429 nodes. Perfect accuracy.
+    Base data + meta-features:
+        Tree has 26751 nodes for L2. Perfect accuracy.
+        Tree has 27047 nodes for L3. Perfect accuracy.
+    Two trees above seem to MASSIVELY overfit training data. Also, my meta-
+     features suck.
+    Meta_features:
+        Tree has 95 nodes. ~40% raw accuracy, 90% of values are within 3
+        classes of actual value.

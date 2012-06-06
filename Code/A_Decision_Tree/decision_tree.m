@@ -1,6 +1,9 @@
-function [tree] = decision_tree(features, classes, feature, feature_val)
+function [tree] = decision_tree(data, feature, feature_val)
 % Return a tree that represents splitting of the training data so that
 % leaves of the data contain only elements from one class.
+
+features = data(:,1:(size(data,2)-1));
+classes = data(:,size(data,2));
 
 THIS = 1;
 PARENT = 2;
@@ -44,10 +47,8 @@ else
         % Split using the given feature.
         tree = node;
         for i = unique(features(:,best))'
-            feat_places = find(features(:,best) == i);
-            new_feats = features(feat_places,:);
-            new_classes = classes(feat_places);
-            child = decision_tree(new_feats, new_classes, best, i);
+            new_data = data(features(:,best) == i,:);
+            child = decision_tree(new_data, best, i);
             child(PARENT,1) = 1;
             child(PARENT,2:size(child,2)) = child(PARENT,2:size(child,2)) + size(tree,2);
             tree = [tree, child];
