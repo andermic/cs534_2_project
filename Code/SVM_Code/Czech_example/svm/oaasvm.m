@@ -62,7 +62,7 @@ function model = oaasvm(data,options)
 % Process inputs
 %-----------------------------
 if nargin < 2, options = []; else options=c2s(options); end
-if ~isfield(options,'verb'), options.verb = 0; end
+if ~isfield(options,'verb'), options.verb = 1; end
 if ~isfield(options,'bin_svm'), options.bin_svm = 'smo'; end
 if ~isfield(options,'ker'), options.ker = 'linear'; end
 if ~isfield(options,'arg'), options.arg = 1; end
