@@ -59,7 +59,7 @@ In section(\ref{sec:Dataset}) we describe the dataset from the UCI repository us
 
 \subsection{Chess (King-Rook vs. King) Data Set}
 \label{subsec:dataset}
-Discuss the dataset from UCI.  Format of the data.
+Discuss the dataset from UCI\cite{MichaelBain:1994}.  Format of the data.
 
 \subsubsection{Notation}
 
@@ -124,7 +124,60 @@ Theory goes here.
 
 \subsection{Theory: Support Vector Machines (SVM)}
 \label{sub:theorySVM}
-Theory goes here.
+
+\subsubsection{Binary SVM Classification}
+\label{sub:binarySVM}
+A support vector machine (SVM) attempts to draw a decision boundary between two classes, which results in the maximum margin\cite{bishop:2006}.  Margin being defined as the orthogonal distance from the decision boundary to a subset of support points $\mathbf{x}_{support} \subset \mathbf{X}$.  Since, we have freedom of normalizing the decision space we set this boundary to $1$ and then attempt to solve the following quadratic optimization problem,
+%  
+\begin{equation}
+\label{eq:SVM}
+\begin{aligned}
+	& \underset{w,b}{\text{min}}
+	& & \frac{1}{2} \left\|\mathbf{w}\right\|^2 \\
+	& \text{subject to}
+	& & y_i\left(\mathbf{w}^T \mathbf{x}_i + b\right) \geq 1 \text{ , } i = 1,\dots,N
+\end{aligned}
+\end{equation}
+%
+The above equation is useful for the linearly separable Hard-Margin case.  Since the dataset(\ref{subsec:dataset}) contains overlapping data points for different classes, we require a non-linearly separable SVM, i.e. we need to incorporate a Soft-Margin.  This is achievable by relaxing the normalized constraint to allow support points to be within the margin\cite{UsersGuideSVM}.  The common approach, from Linear Programming, shows that adding slack variables $\boldsymbol{\xi}$ along with a trade-off parameter $C$ can achieve this,
+%
+\begin{equation}
+\label{eq:SVM_soft}
+\begin{aligned}
+	& \underset{w,b}{\text{min}}
+	& & \frac{1}{2} \left\|\mathbf{w}\right\|^2 + C \sum_{i=1}^N \xi_i\\
+	& \text{subject to}
+	& & y_i\left(\mathbf{w}^T \mathbf{x}_i + b\right) \geq 1 - \xi_i \text{ , } \xi_i \geq 0 \text{ , } i = 1,\dots,N 
+\end{aligned}
+\end{equation}
+%
+Now, it was observed from the dataset(\ref{subsec:dataset}) that the number of examples for each class was vastly different.  In this case, the SVM approximates a majority-class classifier and places the decision boundary extremely close to the minority class.
+%
+\begin{figure}[H]
+	{\centering
+		\includegraphics[trim = 2mm 2mm 2mm 2mm, clip,width=0.7\textwidth]{figs/DifferentC}
+		\caption{Using different trade-off parameters $\mathbf{C}$ to prevent majority-control (figure from \cite{UsersGuideSVM})}
+		\label{fig:Different_SVM_C_size}
+	}
+\end{figure}
+%
+To avoid majority-control, we can scale the trade-off parameters $\mathbf{C} \in [C_{1}, C_{-1}]$ so that the minority class caries more weight when misclassified. Such that eq(\ref{eq:SVM_soft}) becomes,
+%
+\begin{equation}
+\label{eq:scaledC}
+\begin{aligned}
+	\mathbf{C} \sum_{i=1}^N \xi_i &= C_1 \sum_{i \in +}^N \xi_i + C_{-1} \sum_{i \in -}^N \xi_i\\
+	& C_1 = \frac{n_{-1}}{n_{1}} C_{-1}
+\end{aligned}
+\end{equation}
+%
+So far eq(\ref{eq:SVM_soft}) uses a linear kernel for the inner product of $\mathbf{w}^T \mathbf{x}_i$.  We can expand this to use a polynomial kernel $K(x_i , x_j) = (\gamma x_i^T x_j + r)^d$ of various power $d$ or a radial basis function kernel $K(x_i , x_j) = \exp(-\gamma \left\|x_i - x_j\right\|^2)$. 
+
+\subsubsection{Multi-Class SVM Classification}
+\label{sub:multiSVM}
+For this report, we tried two methods for multi-class classification.  The first, was \textit{one-versus-the-rest}\cite{vapnik:1998}, where $K$ separate SVMs are trained, with the $k^{th}$ class assigned $+1$ and all other classes assigned to $-1$.  Then the classification is provided by $y(\mathbf{x}) = \underset{k}{\text{max}} y_k (\mathbf{x})$.
+
+The second method, was \textit{one-versus-one}\cite{vapnik:1998}, where $K(K-1)/2$ separate SVMs are trained against each other.  Then the classification is provided by $y(\mathbf{x}) = \underset{k}{\text{max}} \rho_k y_k (\mathbf{x})$.  Where, $\rho_k$ is the number of ``votes'' for a given class $y_k$.
 
 % ***********************************************
 \section[Results]{Simulation\textbackslash Classification Results}
@@ -150,7 +203,7 @@ You can insert images by using the following code.  Just place them in the figs 
 \label{sec:Conclusions}
 
 % ***********************************************
-\nocite{*}  %Uncomment this line to print all citations 
+%\nocite{*}  %Uncomment this line to print all citations 
 \bibliographystyle{IEEEbib}
 \bibliography{references} 
 
