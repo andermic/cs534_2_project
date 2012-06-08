@@ -7,6 +7,6 @@ MainFile=CS534-12 Project - XXXX.tex
 UseBibTeX=0
 UseMakeIndex=0
 ActiveProfile=LaTeX => PS => PDF
-ProjectLanguage=
-ProjectDialect=
+ProjectLanguage=en
+ProjectDialect=US
 

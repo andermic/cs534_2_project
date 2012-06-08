@@ -1,4 +1,4 @@
-function [wT,b,TrainAccuracy] = pegasos_rbf(X,Y,lamda,k,maxIter,Tolerance,gamma)
+function [wT,b,TrainAccuracy] = pegasos(X,Y,lamda,k,maxIter,Tolerance)
 % Usage: [W,b] = pegasos(X,Y,lamda,k,maxIter)
 % Input:
 % X: n*d matrix, n=number of examples(instances), d=number of variables (features);
@@ -35,22 +35,19 @@ if(sum(Y~=1 & Y~=-1)>0)
     return;
 end
 
-if(nargin<3 || isempty(lamda)),         lamda=1;            end
-if(nargin<4 || isempty(maxIter)),       maxIter=10000;      end
-if(nargin<5 || isempty(k)),             k=ceil(0.1*N);      end
-if(nargin<6 || isempty(Tolerance)),     Tolerance=10^-6;    end
-if(nargin<7 || isempty(gamma)),         gamma = 10^-3;      end
+if(nargin<3 || isempty(lamda)),         lamda=1;  end
+if(nargin<4 || isempty(k)),             k=ceil(0.1*N); else k = ceil(k*N);  end
+if(nargin<5 || isempty(maxIter)),       maxIter=10000;  end
+if(nargin<6 || isempty(Tolerance)),     Tolerance=10^-6;  end
 
 w=rand(1,size(X,2));
 w=w/(sqrt(lamda)*norm(w));
 for t=1:maxIter
     %fprintf('\niteration # %d/%d',t,maxIter);
     b=mean(Y-X*w(t,:)');
-    
-    idx = randint(k,1,[1,size(X,1)]);
-    At = X(idx,:);
-    yt = Y(idx,:);
-    
+    idx=randint(k,1,[1,size(X,1)]);
+    At=X(idx,:);
+    yt=Y(idx,:);
     idx1=(At*w(t,:)'+b).*yt<1;
     etat=1/(lamda*t);
     w1=(1-etat*lamda)*w(t,:)+(etat/k)*sum(At(idx1,:).*repmat(yt(idx1,:),1,size(At,2)),1);
@@ -69,6 +66,7 @@ end
 %wT=mean(w,1);
 wT=w(end,:);
 b=mean(Y-X*wT');
+
 Tr=sum(sign(X*wT'+b)==Y);
 F=size(X,1)-Tr;
 TrainAccuracy=100*Tr/(Tr+F);
