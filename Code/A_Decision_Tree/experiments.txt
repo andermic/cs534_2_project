@@ -34,6 +34,7 @@ Mutual Information(Base Data):
 
     These MIs show that data set is skewed
 
+    I(Corner-Distance,Class) = 0.3328
     I(Edge-Distance,Class) = 0.2602
     I(Kings-Distance,Class):
         L1= 0.1068
@@ -70,10 +71,10 @@ Decision Tree:
         Tree has 99 nodes. ~40% raw accuracy, 90% of values are within 3
         classes of actual value.
             Mean is 1.3828! Median is 1! Std is 1.6343. Good results!
-            Mean of random data is 6 class difference. Median is 5.
+            Mean of random data is 6.1 class difference. Median is 5.
 
-    Want to build from meta-features-L3. There are 33 different L3 norm values, so treat it like a continuous
-     variable to simplify the model.
+    Want to build from meta-features-L3. There are 33 different L3 norm values,
+     so treat it like a continuous variable to simplify the model.
         Tree has 115 nodes. Slightly less accuracy than multi-way norm, but not terribly significant.
         For continuous norm: Mean is 1.462. Median is 1. Std is 1.7786.
 
@@ -81,3 +82,6 @@ Decision Tree:
         Split the data into 10 pieces. For each of 10 runs, split the data into
         9/10 training data and 1/10 testing data.
             Mean = 1.39! Std = 1.63!
+
+    5 parameter training / testing = all: Mean = 1.0627. Std = 1.4781
+    5 parameter cross-validation: 263 nodes: Mean = 1.075. Std = 1.468

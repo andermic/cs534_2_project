@@ -2,13 +2,11 @@
 import os, sys
 
 if len(sys.argv) < 2:
-    """
-	print '\nExample usage:\n'
+    print '\nExample usage:\n'
     print '    ./data_to_image 1,4,2,5,7,7\n'
     print 'Downloads an image of a chess position with the white king on square'
     print '(1,4), the white rook on square (2,5), and the black king on square'
     print '(7,7).\n'
-	"""
     exit()
 
 position = sys.argv[1].split(',')
@@ -36,8 +34,6 @@ prefix = 'ChessImager.php?fen='
 img_name = [i for i in dir_contents if i[:len(prefix)] == prefix][0]
 os.system('mv %s position.png' % img_name)
 
-"""
 print 'Saved image as position.png'
 print 'Pulled image from:'
 print ' %s' % url
-"""
