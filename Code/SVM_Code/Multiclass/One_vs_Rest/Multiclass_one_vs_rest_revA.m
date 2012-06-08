@@ -10,7 +10,7 @@
 load('..\Parameterizations');
 
 % Knock off class labels -1 and 0, since they are deterministically found
-ScaledTheta = ScaledTheta(y>0,:);
+X = ScaledTheta(y>0,:);
 y = y(y>0);
 
 % Define the class labels explicently
@@ -31,16 +31,19 @@ for i=1:length(label)
     y_lab(y ~= label(i)) = -1;
     
     % Course Grid Search eta and lambda
-    eta = 0:0.1:1;
-    lambda = 1:0.1:5;
-    accuracy = zeros(length(eta),length(lambda));
-    for j = 1:length(eta)
-        for k = 1:length(lambda)
-            [wT,b,accuracy(j,k)] = pegasos(ScaledTheta,y_lab,lambda(k),[],[],[]);
+    tic;
+    K = 0.1:0.1:1;
+    lambda = 1:1:10;
+    accuracy = zeros(length(K),length(lambda));
+    for k = 1:length(K)
+        display(['iter: ',num2str(k),'/',num2str(length(K))]);
+        for j = 1:length(lambda)
+            [wT,b,accuracy(k,j)] = pegasos(X,y_lab,lambda(j),K(k),[],[]);
         end
     end
-    
-    [temp,inx_M] = max(accuracy);
+    toc;
+    pause;
     
 end
+
 
