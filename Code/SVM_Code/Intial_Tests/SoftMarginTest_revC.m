@@ -11,7 +11,7 @@ load('Parameterizations');
 
 % Define the classes you want to grab
 % Note, you might want to grab to very seperate classes
-Class1 = 15;
+Class1 = 5;
 Class2 = 16;
 
 % Create new variables Theta and y to hold the reduced dataset

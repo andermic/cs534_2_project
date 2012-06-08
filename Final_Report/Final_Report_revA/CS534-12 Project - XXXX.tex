@@ -171,13 +171,15 @@ To avoid majority-control, we can scale the trade-off parameters $\mathbf{C} \in
 \end{aligned}
 \end{equation}
 %
-So far eq(\ref{eq:SVM_soft}) uses a linear kernel for the inner product of $\mathbf{w}^T \mathbf{x}_i$.  We can expand this to use a polynomial kernel $K(x_i , x_j) = (\gamma x_i^T x_j + r)^d$ of various power $d$ or a radial basis function kernel $K(x_i , x_j) = \exp(-\gamma \left\|x_i - x_j\right\|^2)$. 
+So far eq(\ref{eq:SVM_soft}) uses a linear kernel for the inner product of $\mathbf{w}^T \mathbf{x}_i$.  We can expand this to a larger dimensional space by using a polynomial kernel $K(x_i , x_j) = (\gamma x_i^T x_j + r)^d$ of various power $d$, a radial basis function (Gaussian) kernel $K(x_i , x_j) = \exp(-\gamma \left\|x_i - x_j\right\|^2)$, or a sigmoid kernel $K(x_i , x_j) = \tanh(\gamma x_i^T x_j + r)$.  All three kernels were attempted using the LIBSVM solver\cite{LIBSVM} (see, sec(\ref{sub:resultsSVM})).
+
+One method employed for this report was \textit{Pegasos: Primal Estimated sub\_GrAdient SOlver for SVM}\cite{Shwartz:2007}.  This is a iterative shrinkage method that alternates between stochastic gradient descent steps and projection steps.  This method does \textbf{not} improve accuracy over other SVM methods, but does drastically improve convergence time.  This speedup is achievable by approximating the sub-gradient with $k$ random samples of the training matrix and projecting $\mathbf{w}$ onto a $L_2$ ball of radius $1/\sqrt{\lambda}$, where $\lambda$ and $k$ are tunning parameters.      
 
 \subsubsection{Multi-Class SVM Classification}
 \label{sub:multiSVM}
-For this report, we tried two methods for multi-class classification.  The first, was \textit{one-versus-the-rest}\cite{vapnik:1998}, where $K$ separate SVMs are trained, with the $k^{th}$ class assigned $+1$ and all other classes assigned to $-1$.  Then the classification is provided by $y(\mathbf{x}) = \underset{k}{\text{max}} y_k (\mathbf{x})$.
+LIBSVM comes with its own methods for handling multi-class classification.  To the end-user it is more of a \textit{``black-box''}, where $\mathbf{X}, \mathbf{y}, \text{and some [options]}$ are supplied to the function verbatim.  
 
-The second method, was \textit{one-versus-one}\cite{vapnik:1998}, where $K(K-1)/2$ separate SVMs are trained against each other.  Then the classification is provided by $y(\mathbf{x}) = \underset{k}{\text{max}} \rho_k y_k (\mathbf{x})$.  Where, $\rho_k$ is the number of ``votes'' for a given class $y_k$.
+For Pegasos, we tried two methods for multi-class classification.  The first, was \textit{one-versus-the-rest}\cite{vapnik:1998}, where $K$ separate SVMs are trained, with the $k^{th}$ class assigned $+1$ and all other classes assigned to $-1$.  Then the classification is provided by $y(\mathbf{x}) = \text{max}_k y_k (\mathbf{x})$.  This provided dismal results, since the decision boundary tended to split the feature space into separate halves, giving classes $\widehat{y} = 1$ and $\widehat{y} = 16$ the farthest distance to any decision boundary. The second method, was \textit{one-versus-one}\cite{vapnik:1998}, where $K(K-1)$ separate SVMs are trained against each other.  Then the classification is provided by $y(\mathbf{x}) = \text{max}_k \rho_k y_k (\mathbf{x})$.  Where, $\rho_k$ is the number of ``votes'' for a given class $y_k$.
 
 % ***********************************************
 \section[Results]{Simulation\textbackslash Classification Results}
@@ -188,15 +190,60 @@ The second method, was \textit{one-versus-one}\cite{vapnik:1998}, where $K(K-1)/
 
 \subsection{Results: Support Vector Machine (SVM)}
 \label{sub:resultsSVM}
-You can insert images by using the following code.  Just place them in the figs folder and make sure they are in *.eps format.\cite{bishop:2006}
+
+\subsubsection{Pegasos}
+\label{subsub:Pegasos}
+To start, the Pegasos algorithm\cite{Shwartz:2007} was visually tested against the chosen parameter space to see how separable the data was (see, fig(\ref{fig:2D_Space})) and if the algorithm was working correctly.  
 %
 \begin{figure}[H]
 	{\centering
-		\includegraphics[trim = 10mm 10mm 10mm 0mm, clip,width=1.0\textwidth]{figs/Test_Image}
-		\caption{CaptionName: Test Image from figs folder}
-		\label{fig:Test}
+		\includegraphics[trim = 10mm 8mm 10mm 0mm, clip,width=1.0\textwidth]{figs/2D_FeatureSpace}
+		\caption{Feature Space Separation for two-parameters ($\left\|B_k - W_k\right\|^2$ and $\left\|B_k - corner\right\|^2$) for classes $y=4$ and $y=16$}
+		\label{fig:2D_Space}
 	}
 \end{figure}
+%
+With the algorithm working, the next goal is to setup the grid-search for tunning parameters $\lambda$ and $k$.  The projection distance is controlled by $\lambda$, while the subset of training examples for the sub-gradient is controlled by $k$, i.e. $A_k \subseteq X$.  This grid-search had to be performed on each inner-class binary training problem. 
+%
+\begin{figure}[H]
+	{\centering
+		\includegraphics[trim = 10mm 8mm 10mm 0mm, clip,width=1.0\textwidth]{figs/Grid_Search}
+		\caption{Grid-search over $\lambda$ and $k$ for a single binary classification instance}
+		\label{fig:GridSearch}
+	}
+\end{figure}  
+%
+For the multi-class problem, we used the one-vs-one method with a voting system defined by $y(\mathbf{x}) = \text{max}_k \rho_k y_k (\mathbf{x})$.  The voting parameter $\rho_k = \sum_{i \neq I_k} (y_i = +1)$ was created by evaluating each row of the weight matrix, corresponding to a class label $\mathbf{y} \in [1,2,\dots,16]$, such that $y_i = sign(\mathbf{W}_i^T \mathbf{x} + \mathbf{b}_i)$.  The final multi-class prediction was found to be,
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{ | l | c | c | c |}
+  		\hline                        
+  		\textbf{Method} & \textbf{$\mu$ error} & \textbf{$\sigma$ error} & \textbf{Testing Accuracy} \\ \hline
+  		Pegasos: One-v-One & 1.78 & 1.59 & 51.25\% \\ \hline
+		\end{tabular}
+	\label{table:AccuracyPegasos}
+\end{table}
+Here, testing accuracy is taken to be within a $\epsilon$-ball away from the true class label.  For this report, we used $\epsilon = 1$.  Note, since this is a multi-class problem the testing accuracy expectation for random guessing across 16 class labels is $P_y = 1/16 = 6.25\%$.
+
+\subsubsection{LIBSVM}
+\label{subsub:LIBSVM}
+As mentioned, LIBSVM\cite{LIBSVM} is a off-the-shelf implementation for SVM.  We tried several different kernels with our dataset (again, using $\epsilon = 1$ for the testing accuracy) and found the following results,
+
+\begin{table}[htbp]
+	\centering
+		\begin{tabular}{ | l | c | c | c |}
+  		\hline                        
+  		\textbf{LIBSVM: Kernel} & \textbf{$\mu$ error} & \textbf{$\sigma$ error} & \textbf{Testing Accuracy} \\ \hline
+  		 Linear & 1.29 & 1.42 & 68.28\% \\ \hline
+  		 Polynomial d-2 & 1.75 & 1.93 & 59.9\% \\ \hline
+  		 Polynomial d-3 & 1.32 & 1.42 & 66.7\% \\ \hline
+  		 Polynomial d-4 & 1.60 & 1.71 & 61.82\% \\ \hline
+  		 RBF & 1.20 & 1.37 & 70.1\% \\ \hline
+  		 Sigmoid & 1.94 & 1.85 & 52.5\% \\ \hline
+		\end{tabular}
+	\label{table:AccuracyLIBSVM}
+\end{table}
 
 % ***********************************************
 \section{Conclusions}
