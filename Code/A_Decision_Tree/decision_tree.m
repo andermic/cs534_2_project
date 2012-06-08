@@ -20,6 +20,7 @@ THRESHOLD = 5;
 CLASS_VAL = 6;
 
 NORM = 2;
+NULL = -2;
 
 node = zeros(5,1);
 node(THIS) = 0;
@@ -27,7 +28,7 @@ node(PARENT) = 0;
 node(FEATURE) = feature;
 node(FEATURE_VAL) = feature_val;
 node(THRESHOLD) = threshold;
-node(CLASS_VAL) = -2;
+node(CLASS_VAL) = NULL;
 
 % First base case: Return if all of the data belong to the same class.
 if nnz(classes(1) == classes) == 0

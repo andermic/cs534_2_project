@@ -1,3 +1,27 @@
+Data set:
+    28056 elements total
+    Number of each label:
+    Draws - 2796
+    Checkmates - 27
+    Moves until checkmate:
+        1  - 78
+        2  - 246
+        3  - 81
+        4  - 198
+        5  - 471
+        6  - 592
+        7  - 683
+        8  - 1433
+        9  - 1712
+        10 - 1985
+        11 - 2854
+        12 - 3597
+        13 - 4194
+        14 - 4553
+        15 - 2166
+        16 - 390
+
+
 Mutual Information(Base Data):
     I(Random,Random) = 0.003
 
@@ -7,6 +31,8 @@ Mutual Information(Base Data):
     I(W_r_r,Class) = 0.0462
     I(B_k_c,Class) = 0.1851
     I(B_k_r,Class) = 0.3145
+
+    These MIs show that data set is skewed
 
     I(Edge-Distance,Class) = 0.2602
     I(Kings-Distance,Class):
@@ -29,6 +55,7 @@ Mutual Information(Base Data):
 
 Use L3 norm!
 
+
 Entropy(Base Data):
     H(Class) = 3.5042
 
@@ -49,3 +76,8 @@ Decision Tree:
      variable to simplify the model.
         Tree has 115 nodes. Slightly less accuracy than multi-way norm, but not terribly significant.
         For continuous norm: Mean is 1.462. Median is 1. Std is 1.7786.
+
+    Cross validation:
+        Split the data into 10 pieces. For each of 10 runs, split the data into
+        9/10 training data and 1/10 testing data.
+            Mean = 1.39! Std = 1.63!
